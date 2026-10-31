@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom WebOS</title>
+    
+
+    <style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+        background: url('img/larp.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        height: 100vh;
+        overflow: hidden;
+    }        
+    .top-bar {
+        height: 35px;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        border-bottom: 1px solid #444;
+    }
+    .desktop {
+        padding: 20px;
+    }
+    .desktop-icon {
+        cursor: pointer;
+        padding: 10px;
+        width: 80px;
+    }      
+    .window {
+        position: absolute;
+        top: 100px;
+        left: 150px;
+        width: 300px;
+        background: #2a2a40;
+        border: 1px solid #444;
+        border-radius: 6px;
+        display: none;
+    }   
+    .window-header {
+        background: #3a3a55;
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: move;
+    }
+    
+    .window-body {
+        padding: 15px;
+    }
+
+    .taskbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        border-top: 1px solid #444;
+        gap: 10px;
+    }    
+    .taskbar-btn {
+        background: #2a2a40;
+        color: #fff;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 4px 10px;
+        cursor: pointer;
+    }
+    .window-controls button {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+    .calc-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        margin-top: 10px;
+    }
+    .calc-grid button {
+        padding: 10px;
+        background: #3a3a55;
+        color: white;
+        border: 1px solid #555;
+        border-radius: 4px;
+        cursor: pointer;
+    }        
+    </style>
+</head>
+<body>
+    <!-- clock lines -->
+    <div class ="top-bar">
+        <span id="clock">00:00</span>
+        <span>My Custom WebOS</span>
+    </div>
+     
+    <! Desktop icon>
+    <div class="desktop">
+        <div class="desktop-icon" onclick="openWindow('myWindow')" style="text-align: center;">
+            <img src="img/scroll.png" alt ="About" style="width: 32px; height: 32px;"><br>
+            <span style="font-size: 12px;">About</span>
+        </div>
+        <div class="desktop-icon" onclick="openNotepad()" style="margin-top: 15px; text-align: center;">
+            <img src="img/notes.png" alt ="Notepad" style="width: 32px; height: 32px;"><br>
+            <span style="font-size: 12px;">📝 Notepad</span>
+        </div>
+        <div class="desktop-icon" onclick="openWindow('calcWindow')" style="margin-top: 15px; text-align: center;">
+            <img src="img/cal.jfif" alt ="Calc" style="width: 32px; height: 32px;"><br>
+            <span style="font-size: 12px;">Calc</span>
+        </div>    
+
+    </div>        
+
+    <! About Me>
+    <div class="window" id="myWindow">
+        <div class="window-header" onmousedown="dragWindow(event, 'myWindow')">
+            <span>About Me App</span>
+            <div class="window-controls">
+                <button onclick="minimizeWindow('myWindow')">_</button>
+                <button onclick="maximizeWindow('myWindow')">[ ]</button>
+                <button onclick="closeWindow()">X</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <h2>Hello! I am Smayan Thapar.</h2>
+            <p>Welcome to my own WebOS.</p>
+        </div>    
+    </div>
+
+    <! Window 2: Notepad>
+    <div class="window" id="notepadWindow">
+        <div class="window-header" onmousedown ="dragWindow(event, 'notepadWindow')">
+            <span>Notepad App</span>
+            <div class="window-controls">
+                <button onclick="minimizeWindow('notepadWindow')">_</button>
+                <button onclick="maximizeWindow('notepadWindow')">[ ]</button>
+                <button onclick="closeNotepad()">X</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <textarea placeholder="Type your notes here..." style="width: 100%; height: 100px; background: #111; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 5px;"></textarea>    
+        </div>
+    </div>    
+
+    <!cALC>
+    <div class="window" id="calcWindow">
+        <div class="window-header" onmousedown="dragWindow(event, 'calcWindow')">
+            <span>Calculator</span>
+            <div class="window-controls">
+                <button onclick="minimizeWindow('calcWindow')">_</button>
+                <button onclick="maximizeWindow('calcWindow')">[ ]</button>
+                <button onclick="closeCalc()">X</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <input type="text" id="calcDisplay" readonly style="width: 95%; height: 30px; background: #111; color: #fff; border: 1px solid #444; border-radius: 4px; padding-right: 5px; font-size: 16px;">
+            <div class="calc-grid">
+                <button onclick="calcClear()">C</button>
+                <button onclick="calcAppend('/')">/</button>
+                <button onclick="calcAppend('*')">*</button>
+                <button onclick="calcAppend('-')">-</button>
+                <button onclick="calcAppend('7')">7</button>
+                <button onclick="calcAppend('8')">8</button>
+                <button onclick="calcAppend('9')">9</button>
+                <button onclick="calcAppend('+')">+</button>
+                <button onclick="calcAppend('4')">4</button>
+                <button onclick="calcAppend('5')">5</button>
+                <button onclick="calcAppend('6')">6</button>
+                <button onclick="calcEqual()">=</button>
+                <button onclick="calcAppend('1')">1</button>
+                <button onclick="calcAppend('2')">2</button>
+                <button onclick="calcAppend('3')">3</button>
+                <button onclick="calcAppend('0')">0</button>
+            </div>
+        </div>       
+    </div>  
+   
+    <! taskbar>
+    <div class="taskbar">
+        <button class="taskbar-btn" onclick="openWindow('myWindow')">About Me</button>
+        <button class="taskbar-btn" onclick="openWindow('notepadWindow')">Notepad</button>
+        <button class="taskbar-btn" onclick="openWindow('calcWindow')">Calculator</button>
+    </div>
+
+    <script src="script.js"></script>
+
+    
+</body>
+</html>
