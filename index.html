@@ -127,7 +127,7 @@
     </div>        
 
     <! About Me>
-    <div class="window" id="myWindow">
+    <div class="window" id="myWindow" onmousedown="bringToFront('myWindow')">
         <div class="window-header" onmousedown="dragWindow(event, 'myWindow')">
             <span>About Me App</span>
             <div class="window-controls">
@@ -143,7 +143,7 @@
     </div>
 
     <! Window 2: Notepad>
-    <div class="window" id="notepadWindow">
+    <div class="window" id="notepadWindow" onmousedown="bringToFront('notepadWindow')">
         <div class="window-header" onmousedown ="dragWindow(event, 'notepadWindow')">
             <span>Notepad App</span>
             <div class="window-controls">
@@ -158,7 +158,7 @@
     </div>    
 
     <!cALC>
-    <div class="window" id="calcWindow">
+    <div class="window" id="calcWindow" onmousedown="bringToFront('calcWindow')">
         <div class="window-header" onmousedown="dragWindow(event, 'calcWindow')">
             <span>Calculator</span>
             <div class="window-controls">
