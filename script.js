@@ -113,3 +113,40 @@ function maximizeWindow(id) {
 function closeCalc() {
     document.getElementById('calcWindow').style.display= 'none';
 }
+
+let highestZindex =10;
+
+function bringTofront(id){
+    const win = document.getElementById(id);
+    if (win) {
+        highestZindex++;
+        win.style.zIndex =highestZindex;
+    }
+}
+
+function toggleWindow(id) {
+    const win = document.getElementById(id);
+    if (!win) return;
+
+    // if windows open close it
+    if (win.style.display=== 'block' && win.style.zIndex == highestZindex) {
+        win.style.display= 'none';
+    } else{
+        //or open and bringto front
+        win.style.display = 'block';
+        bringTofront(id);
+    }
+
+}
+
+//bring to front when drag
+function dragWindow(event, windowId){
+    event.preventDefault();
+    bringTofront(windowId);
+    activeWindow= document.getElementById(windowId);
+    offsetX =event.clientX- activeWindow.offsetLeft;
+    offsetY= event.clientY-activeWindow.offsetTop;
+
+    document.onmousemove = elementDrag;
+    document.onmouseup = closeDragElement;
+}
