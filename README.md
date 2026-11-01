@@ -8,3 +8,4 @@ It also has a working maximize/ minimize system.
 
 WARNING!!!
 please extract all files before using.
+open the index file only.
